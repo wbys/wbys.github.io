@@ -7,7 +7,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>朝生暮死 | wbys</title>
+  <title>Double转Bigdecimal精度问题 | wbys</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -15,16 +15,16 @@
     <meta name="keywords" content="wbys,后端,java,后端开发,用户体验,设计,python,nodejs,JavaScript" />
   
 
-  <meta name="description" content="期待着每个周末  在周末活下来  到周一死去  我放弃了  人不能一直活在期待里">
+  <meta name="description" content="###遇到一个bug今天项目里遇到一个bug，前端传过来的二位小数值，结果存到数据库变了，”123.56”变成了”123.55”，就debug跟了一下结果发现了问题，简单描述一下。  后端接收参数是用的Double类型，接下来有个操作要转成转成Bigdecimal  参数： private Double area; 操作： UpdateRequest request = new UpdateReq">
 <meta property="og:type" content="article">
-<meta property="og:title" content="朝生暮死">
-<meta property="og:url" content="http://iwbys.com/2017/06/05/zsms/index.html">
+<meta property="og:title" content="Double转Bigdecimal精度问题">
+<meta property="og:url" content="http://iwbys.com/2017/08/10/Double2Bigdecimal/index.html">
 <meta property="og:site_name" content="wbys">
-<meta property="og:description" content="期待着每个周末  在周末活下来  到周一死去  我放弃了  人不能一直活在期待里">
-<meta property="og:updated_time" content="2017-06-05T03:15:11.120Z">
+<meta property="og:description" content="###遇到一个bug今天项目里遇到一个bug，前端传过来的二位小数值，结果存到数据库变了，”123.56”变成了”123.55”，就debug跟了一下结果发现了问题，简单描述一下。  后端接收参数是用的Double类型，接下来有个操作要转成转成Bigdecimal  参数： private Double area; 操作： UpdateRequest request = new UpdateReq">
+<meta property="og:updated_time" content="2017-08-10T09:58:11.920Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="朝生暮死">
-<meta name="twitter:description" content="期待着每个周末  在周末活下来  到周一死去  我放弃了  人不能一直活在期待里">
+<meta name="twitter:title" content="Double转Bigdecimal精度问题">
+<meta name="twitter:description" content="###遇到一个bug今天项目里遇到一个bug，前端传过来的二位小数值，结果存到数据库变了，”123.56”变成了”123.55”，就debug跟了一下结果发现了问题，简单描述一下。  后端接收参数是用的Double类型，接下来有个操作要转成转成Bigdecimal  参数： private Double area; 操作： UpdateRequest request = new UpdateReq">
 
   
 
@@ -159,22 +159,17 @@
 </div>
 
 
-  <div id="toc" class="toc-article">
-    <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#期待着每个周末-在周末活下来-到周一死去-我放弃了-人不能一直活在期待里"><span class="toc-text">期待着每个周末  在周末活下来  到周一死去  我放弃了  人不能一直活在期待里</span></a></li></ol>
-  </div>
-
 
 
 <div class="content content-post CENTER">
-   <article id="post-zsms" class="article article-type-post" itemprop="blogPost">
+   <article id="post-Double2Bigdecimal" class="article article-type-post" itemprop="blogPost">
   <header class="article-header">
-    <h1 class="post-title">朝生暮死</h1>
+    <h1 class="post-title">Double转Bigdecimal精度问题</h1>
 
     <div class="article-meta">
       <span>
         <i class="icon-calendar"></i>
-        <span>2017.06.05</span>
+        <span>2017.08.10</span>
       </span>
 
       
@@ -190,7 +185,7 @@
       
         <span>
           <i class="icon-comment"></i>
-          <a href="http://iwbys.com/2017/06/05/zsms/#disqus_thread"></a>
+          <a href="http://iwbys.com/2017/08/10/Double2Bigdecimal/#disqus_thread"></a>
         </span>
       
 
@@ -209,7 +204,55 @@
 
   <div class="article-content">
     
-      <h4 id="期待着每个周末-在周末活下来-到周一死去-我放弃了-人不能一直活在期待里"><a href="#期待着每个周末-在周末活下来-到周一死去-我放弃了-人不能一直活在期待里" class="headerlink" title="期待着每个周末  在周末活下来  到周一死去  我放弃了  人不能一直活在期待里"></a>期待着每个周末  在周末活下来  到周一死去  我放弃了  人不能一直活在期待里</h4>
+      <p>###遇到一个bug<br>今天项目里遇到一个bug，前端传过来的二位小数值，结果存到数据库变了，”123.56”变成了”123.55”，就debug跟了一下结果发现了问题，简单描述一下。</p>
+<blockquote>
+<p>后端接收参数是用的Double类型，接下来有个操作要转成转成Bigdecimal </p>
+<p>参数：</p>
+<pre><code>private Double area;
+</code></pre><p>操作：</p>
+<pre><code>UpdateRequest request = new UpdateRequest();
+request.setArea(new BigDecimal(area));
+System.out.println(new ObjectMapper().writeValueAsString(request));
+</code></pre><p>然后打印出来结果是：</p>
+<pre><code>{&quot;area&quot;:789.55999999999994543031789362430572509765625}
+</code></pre></blockquote>
+<p>一脸懵逼不知道为什么这样。想了一下应该是精度的问题，查了下资料是Double转BigDecimal构造函数的bug</p>
+<pre><code>public BigDecimal(double val) {
+    this(val,MathContext.UNLIMITED);
+}
+</code></pre><p>###解决方法<br>因为项目里是2位小数，查到一个简单的解决方法</p>
+<blockquote>
+<p>先把Double转String，然后再用String转BigDecimal的构造函数。</p>
+</blockquote>
+<pre><code>public class Double2Bigdecimal {
+
+    public static void main(String[] args) throws JsonProcessingException {
+
+        Double area = 789.56;
+
+        UpdateRequest request = new UpdateRequest();
+        request.setArea(new BigDecimal(area));
+        System.out.println(new ObjectMapper().writeValueAsString(request));
+    }
+
+
+    public static class UpdateRequest{
+        private BigDecimal area;
+
+        public BigDecimal getArea() {
+            return area;
+        }
+
+        public void setArea(BigDecimal area) {
+            this.area = area;
+        }
+    }
+}
+</code></pre><p>###总结<br>所以最好别用这个构造函数，应该使用</p>
+<pre><code>public BigDecimal(String val) {
+    this(val.toCharArray(), 0, val.length());
+}
+</code></pre>
     
   </div>
 </article>
@@ -239,10 +282,10 @@
 
    
   <div class="box-prev-next clearfix">
-    <a class="show pull-left" href="/2017/05/25/firstblog/">
+    <a class="show pull-left" href="/2017/06/05/zsms/">
         <i class="icon icon-angle-left"></i>
     </a>
-    <a class="show pull-right" href="/2017/08/10/Double2Bigdecimal/">
+    <a class="hide pull-right" href="/">
         <i class="icon icon-angle-right"></i>
     </a>
   </div>
@@ -345,7 +388,7 @@
   <script>
     var disqus_shortname = 'http-iwbys-com';
     
-    var disqus_url = 'http://iwbys.com/2017/06/05/zsms/';
+    var disqus_url = 'http://iwbys.com/2017/08/10/Double2Bigdecimal/';
     
     (function(){
       var dsq = document.createElement('script');
