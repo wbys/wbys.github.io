@@ -21,7 +21,7 @@
 <meta property="og:url" content="http://iwbys.com/2017/08/10/Double2Bigdecimal/index.html">
 <meta property="og:site_name" content="wbys">
 <meta property="og:description" content="遇到一个bug今天项目里遇到一个bug，前端传过来的二位小数值，结果存到数据库变了，”123.56”变成了”123.55”，就debug跟了一下结果发现了问题，简单描述一下。  后端接收参数是用的Double类型，接下来有个操作要转成转成Bigdecimal  参数： private Double area; 操作： UpdateRequest request = new UpdateReques">
-<meta property="og:updated_time" content="2017-08-10T10:41:34.001Z">
+<meta property="og:updated_time" content="2017-08-10T10:45:19.697Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Double转Bigdecimal精度问题">
 <meta name="twitter:description" content="遇到一个bug今天项目里遇到一个bug，前端传过来的二位小数值，结果存到数据库变了，”123.56”变成了”123.55”，就debug跟了一下结果发现了问题，简单描述一下。  后端接收参数是用的Double类型，接下来有个操作要转成转成Bigdecimal  参数： private Double area; 操作： UpdateRequest request = new UpdateReques">
@@ -161,7 +161,7 @@
 
   <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#遇到一个bug"><span class="toc-text">遇到一个bug</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#解决方法"><span class="toc-text">解决方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#遇到一个bug"><span class="toc-text">遇到一个bug</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#解决方法"><span class="toc-text">解决方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li></ol>
   </div>
 
 
@@ -209,7 +209,7 @@
 
   <div class="article-content">
     
-      <h3 id="遇到一个bug"><a href="#遇到一个bug" class="headerlink" title="遇到一个bug"></a>遇到一个bug</h3><p>今天项目里遇到一个bug，前端传过来的二位小数值，结果存到数据库变了，”123.56”变成了”123.55”，就debug跟了一下结果发现了问题，简单描述一下。</p>
+      <h2 id="遇到一个bug"><a href="#遇到一个bug" class="headerlink" title="遇到一个bug"></a>遇到一个bug</h2><p>今天项目里遇到一个bug，前端传过来的二位小数值，结果存到数据库变了，”123.56”变成了”123.55”，就debug跟了一下结果发现了问题，简单描述一下。</p>
 <blockquote>
 <p>后端接收参数是用的Double类型，接下来有个操作要转成转成Bigdecimal </p>
 <p>参数：</p>
@@ -225,7 +225,7 @@ System.out.println(new ObjectMapper().writeValueAsString(request));
 <pre><code>public BigDecimal(double val) {
     this(val,MathContext.UNLIMITED);
 }
-</code></pre><h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><p>因为项目里是2位小数，查到一个简单的解决方法</p>
+</code></pre><h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><p>因为项目里是2位小数，查到一个简单的解决方法</p>
 <blockquote>
 <p>先把Double转String，然后再用String转BigDecimal的构造函数。</p>
 </blockquote>
@@ -253,7 +253,7 @@ System.out.println(new ObjectMapper().writeValueAsString(request));
         }
     }
 }
-</code></pre><h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>所以最好别用这个构造函数，应该使用</p>
+</code></pre><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>所以最好别用这个构造函数，应该使用</p>
 <pre><code>public BigDecimal(String val) {
     this(val.toCharArray(), 0, val.length());
 }
